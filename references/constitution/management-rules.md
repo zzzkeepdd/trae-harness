@@ -1,18 +1,15 @@
 # 宪法管理规则
 
-> 管理规则定义了多Agent协作的边界、约束与强制要求。
+> 跨阶段规则，所有 Agent 在工作时按需加载。
 
 | ID | 条款 | 适用角色 | 原子组 |
 |:---:|------|----------|--------|
 | M01 | 任何流程指令必须附带产出物和验证机制，否则视为软建议。 | 全体 | immutable |
-| C08 | 同时只讨论一个维度，当前维度完成后再进入下一个。 | 辩论Agent | debate-integrity |
-| C09 | 红队至少攻击3个边界条件，蓝队必须逐条回应。 | 辩论Agent | debate-integrity |
-| C10 | 分级门槛：L1≥1个≥3分且≥3个攻击点；L2≥2个≥3分且≥4个；L3≥3个≥3分且≥5个。 | 裁判Agent | debate-integrity |
-| C13 | 审核员必须给出代码可行性建议，为模块二提效。 | 审核员 | module-one-integrity |
-| C17 | 信息瓶颈：执行清单≤200 token，下游提示词≤150词。 | 规范生成Agent | - |
-| C20 | 上下文清理时机：用户确认需求规格后、模块二确认无歧义后才清除。 | Trae统筹 | context-management |
-| C22 | 步骤隔离：子Agent只做当前步骤，不知道下一步。 | Trae统筹 | step-isolation |
-| C27 | 测试即门：开发Agent产出后如无test_*.py，Trae统筹拒绝进入Step 2。 | Trae统筹 | test-gating |
-| C28 | 验证脚本必须有golden negative测试用例，否则视为未完成。 | 全体 | verification-integrity |
-| C29 | 无用户模式：确认被跳过时自动进入降级模式，仍完成模块二全部Step。 | Trae统筹 | autonomy-degradation |
-| C30 | code-qa必须实际执行测试并附执行结果摘要。 | code-qa | qa-effectiveness |
+| C26 | 仓库基础结构完整性：创建新仓库时，必须同步复制所有 schema 文件和必要验证脚本。 | Trae统筹 | repository-integrity |
+| C27 | 测试即门：模块二 Step 1 产出后如无 test_*.py，Trae 统筹拒绝进入 Step 2。开发 Agent 不知道此规则存在。 | Trae统筹 | test-gating |
+| C28 | 门必须挡住：每个验证脚本必须包含至少一个 golden negative 用例并验证其被检出。 | 全体 | verification-integrity |
+| C29 | 无用户模式降级：用户跳过确认 → 跳过 Phase 5 用户门，但须完成 Module 2 全部 Step + 审计闸门。Module 3 仍触发。 | Trae统筹 | autonomy-degradation |
+| C30 | code-qa 实效性：code-qa 必须实际执行测试文件并附结果摘要（通过数/失败数/lint 错误数），不能仅代码审查。 | code-qa | qa-effectiveness |
+| C31 | 编排器完整闭环：AUDIT_GATE 后插入 MODULE_3_REVIEW 再进入 DONE。L3 强制完整 Module 3，L2 至少 Phase 1-2。 | Trae统筹 | orchestrator-integrity |
+| C32 | 测试闸门质量下限：C27 测试闸门不仅检查文件存在，还验证 ≥2 个有效断言（非 assert True）。 | Trae统筹 | test-gating |
+| C33 | 产出真实性：脚本/自动化代理产出的交付物首行必须标注 `# @generated-by: script` vs `# @generated-by: model`。 | 全体 | verification-integrity |
