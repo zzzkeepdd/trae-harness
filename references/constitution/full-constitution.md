@@ -46,9 +46,12 @@
 | C32 | 测试闸门质量下限：C27测试闸门不仅检查测试文件存在，还必须验证测试文件中包含至少2个有效断言（assert/self.assert*且非`assert True`）。包含`assert True`且无其他断言的测试文件视为未通过闸门。 | Trae统筹 | test-gating |
 | C33 | 产出真实性：任何由脚本/编排器/自动化工具代理产出的交付物（代码、报告、测试等），必须在文件首行标注生成方式（`# @generated-by: model` vs `# @generated-by: script`）。审计闸门检查此标注，mock产出在标注`@generated-by: script`时不视为真实通过的产出。 | 全体 | verification-integrity |
 
+| C34 | 增强 代码质量 检查: A组有 11 个测试失败，B组全部通过 (+246%) | 全体 | verification-integrity |
+
 ## 修订记录
 
-- v1.0: 初始规则 — 2026-05-22
+- v1.0:  - v1.4.0: 新增 C34 (experiment-loop)
+初始规则 — 2026-05-22
 - v1.1: 新增C26仓库基础结构完整性规则 — 2026-05-22 (todo-api项目复盘)
 - v1.2: 修订C10分级别评分门槛；新增C27测试即门、C28验证脚本golden negative、C29无用户模式降级、C30 code-qa实效性 — 2026-05-22 (ab-exp项目复盘)
 - v1.3: 新增C31编排器完整闭环、C32测试闸门质量下限、C33产出真实性 — 2026-05-22 (ab-exp项目复盘)
