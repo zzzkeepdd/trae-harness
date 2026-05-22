@@ -1,0 +1,21 @@
+{
+  "dimension": "并发安全",
+  "attacks": [
+    {"描述": "get中先检查key存在再move_to_end的时间窗口——可能拿到已被其他线程删除的key的引用", "target_dimension": "并发安全", "score": 4, "scoring_rationale": "TOCTOU竞态条件"},
+    {"描述": "set内部校验长度前未加锁或锁在get内部被释放", "target_dimension": "并发安全", "score": 3, "scoring_rationale": "需审查锁的覆盖范围"},
+    {"描述": "clear操作使其他线程持有的旧引用失效——可能导致返回None或脏读", "target_dimension": "并发安全", "score": 5, "scoring_rationale": "并发下clear后读是未定义行为"}
+  ],
+  "verified_items": [
+    {"描述": "100线程并发读写不崩溃、不产生异常", "验证方式": "运行并发压力测试脚本"},
+    {"描述": "并发下缓存size不超过max_size", "验证方式": "统计并发操作后size"}
+  ],
+  "must_fix": [
+    {"描述": "get中TTL过期清理和move_to_end需要原子化", "严重程度": "critical"},
+    {"描述": "clear需确保清理后无悬空引用导致异常", "严重程度": "major"}
+  ],
+  "rejected_challenges": [
+    {"挑战": "需要读写锁优化读多写少场景", "驳回理由": "超出当前L1范围，简单互斥锁即可"}
+  ],
+  "rounds_completed": 1,
+  "converged": true
+}

@@ -1,0 +1,16 @@
+=== 代码技术验收报告 (Group-B: Harness) ===
+检查项：
+1. 集成测试：11/11 通过 ✓
+2. 静态检查：
+   - 使用 time.monotonic() 防时钟跳变 ✓
+   - max_size<1 时抛 ValueError ✓
+   - delete 使用 pop(key,None) 防御式编程 ✓
+   - set已存在key时独立分支处理，避免意外淘汰 ✓
+   - 淘汰使用 while 循环而非 if，防并发边界 ✓
+3. 安全扫描：无问题 ✓
+4. 并发正确性：
+   - Lock 覆盖完整 ✓
+   - 无死锁路径 ✓
+
+缺陷统计：bug=0
+通过状态：PASS

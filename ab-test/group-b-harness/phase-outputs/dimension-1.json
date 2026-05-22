@@ -1,0 +1,22 @@
+{
+  "dimension": "TTL过期机制",
+  "attacks": [
+    {"描述": "已过期但从未被get访问的键会永久占用内存，缺少主动清理机制", "target_dimension": "TTL过期机制", "score": 4, "scoring_rationale": "内存泄漏风险，高并发下问题显著"},
+    {"描述": "set同key带上新TTL时，旧TTL过期时间是否被正确覆盖？", "target_dimension": "TTL过期机制", "score": 3, "scoring_rationale": "核心逻辑正确性"},
+    {"描述": "time.time()非单调时钟，系统时间被NTP调整时TTL计算可能跳变", "target_dimension": "TTL过期机制", "score": 3, "scoring_rationale": "生产环境常见风险"}
+  ],
+  "verified_items": [
+    {"描述": "set设置TTL后get在TTL内返回正确值", "验证方式": "time.sleep验证"},
+    {"描述": "TTL过期后get返回None", "验证方式": "time.sleep等待过期"},
+    {"描述": "同key重新set更新TTL", "验证方式": "先设短TTL再设长TTL，get验证"}
+  ],
+  "must_fix": [
+    {"描述": "已过期键缺少主动清理，长时间运行可能OOM", "严重程度": "major"},
+    {"描述": "未使用time.monotonic()，受系统时间跳变影响", "严重程度": "minor"}
+  ],
+  "rejected_challenges": [
+    {"挑战": "TTL精度应为毫秒级", "驳回理由": "任务明确要求秒级精度"}
+  ],
+  "rounds_completed": 1,
+  "converged": true
+}

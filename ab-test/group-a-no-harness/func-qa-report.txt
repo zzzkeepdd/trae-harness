@@ -1,0 +1,15 @@
+=== 功能业务验收报告 (Group-A: 无Harness) ===
+验收标准核对：
+AC-1  set后get返回正确值 ................ PASS
+AC-2  TTL过期后get返回None .............. PASS  
+AC-3  重新set更新TTL ..................... PASS
+AC-4  超max_size淘汰最旧项 ............... PASS
+AC-5  get后key不算最旧 ................... PASS
+AC-6  delete后get返回None ................ PASS
+AC-7  clear后size=0 ...................... PASS
+AC-8  100并发不崩溃 ....................... PASS
+AC-9  get先过期后LRU ..................... PASS
+AC-10 set已存在key不淘汰自身 .............. PASS
+
+可视化验收：N/A（非UI产品）
+警告：TTL使用time.time()，在系统时钟跳变时可能行为异常

@@ -1,0 +1,21 @@
+{
+  "dimension": "API完整性",
+  "attacks": [
+    {"描述": "get时key存在但TTL刚好过期——已经move_to_end了才返回None，导致过期key污染LRU顺序", "target_dimension": "API完整性", "score": 4, "scoring_rationale": "过期key被误当作热key保留"},
+    {"描述": "delete不存在的key是否抛异常？未定义行为", "target_dimension": "API完整性", "score": 2, "scoring_rationale": "API契约模糊"},
+    {"描述": "缺少遍历接口，无法诊断缓存状态", "target_dimension": "API完整性", "score": 3, "scoring_rationale": "运维可观测性缺失"}
+  ],
+  "verified_items": [
+    {"描述": "delete存在的key后get返回None", "验证方式": "set后delete再get"},
+    {"描述": "delete不存在的key不应抛异常", "验证方式": "delete从未set的key"},
+    {"描述": "clear后size=0", "验证方式": "clear后调用size()"}
+  ],
+  "must_fix": [
+    {"描述": "get中过期判断必须在move_to_end之前，否则污染LRU", "严重程度": "critical"}
+  ],
+  "rejected_challenges": [
+    {"挑战": "需要返回是否命中缓存的布尔值", "驳回理由": "当前需求未提及，L1保持简洁"}
+  ],
+  "rounds_completed": 1,
+  "converged": true
+}

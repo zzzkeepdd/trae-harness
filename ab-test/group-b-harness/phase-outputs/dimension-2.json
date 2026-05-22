@@ -1,0 +1,22 @@
+{
+  "dimension": "LRU淘汰策略",
+  "attacks": [
+    {"描述": "set已存在key时不会淘汰——但若该key正好被挤到LRU末尾？touch顺序错误导致误淘汰", "target_dimension": "LRU淘汰策略", "score": 4, "scoring_rationale": "淘汰判断依赖正确的LRU顺序"},
+    {"描述": "max_size=0应视为无限制还是不允许任何存储？", "target_dimension": "LRU淘汰策略", "score": 3, "scoring_rationale": "边界定义模糊"},
+    {"描述": "并发set触发淘汰时，两个线程可能同时淘汰不同key，total可能超max_size", "target_dimension": "LRU淘汰策略", "score": 5, "scoring_rationale": "破坏容量约束核心保证"}
+  ],
+  "verified_items": [
+    {"描述": "超过max_size插入新key时淘汰最久未使用项", "验证方式": "set max_size=3，插入4个key，验证第1个被淘汰"},
+    {"描述": "get访问过的key不算最久未使用", "验证方式": "max_size=2，插入a,b后get(a)，再insert c，验证b被淘汰"},
+    {"描述": "set相同key更新值不触发淘汰", "验证方式": "max_size=3，插入3个key后set第一个key，验证无淘汰"}
+  ],
+  "must_fix": [
+    {"描述": "set已存在key时需确保LRU顺序正确更新", "严重程度": "critical"},
+    {"描述": "并发淘汰可能导致瞬时超max_size", "严重程度": "major"}
+  ],
+  "rejected_challenges": [
+    {"挑战": "需要LFU和FIFO等多种淘汰策略", "驳回理由": "超出当前需求范围，仅LRU"}
+  ],
+  "rounds_completed": 1,
+  "converged": true
+}

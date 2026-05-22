@@ -1,0 +1,104 @@
+{
+  "tasks": [
+    {
+      "id": "T1",
+      "描述": "实现Cache类：set/get/delete/size/clear接口，带LRU+TTL",
+      "验收标准ID": [
+        "AC-1",
+        "AC-2",
+        "AC-3",
+        "AC-6",
+        "AC-7",
+        "AC-9",
+        "AC-10"
+      ],
+      "文件范围": [
+        "src/cache.py"
+      ],
+      "任务类型": "new"
+    },
+    {
+      "id": "T2",
+      "描述": "实现LRU淘汰：max_size超限淘汰最旧，get更新访问时间",
+      "验收标准ID": [
+        "AC-4",
+        "AC-5"
+      ],
+      "文件范围": [
+        "src/cache.py"
+      ],
+      "任务类型": "new"
+    },
+    {
+      "id": "T3",
+      "描述": "线程安全：Lock保护所有操作，并发100线程不崩溃",
+      "验收标准ID": [
+        "AC-8"
+      ],
+      "文件范围": [
+        "src/cache.py"
+      ],
+      "任务类型": "new"
+    }
+  ],
+  "acceptance_criteria": [
+    {
+      "id": "AC-1",
+      "摘要": "set后get返回正确值",
+      "判定方式": "boolean"
+    },
+    {
+      "id": "AC-2",
+      "摘要": "TTL过期后get返回None",
+      "判定方式": "boolean"
+    },
+    {
+      "id": "AC-3",
+      "摘要": "重新set更新TTL",
+      "判定方式": "boolean"
+    },
+    {
+      "id": "AC-4",
+      "摘要": "超max_size淘汰最旧项",
+      "判定方式": "state_check"
+    },
+    {
+      "id": "AC-5",
+      "摘要": "get后key不算最旧",
+      "判定方式": "state_check"
+    },
+    {
+      "id": "AC-6",
+      "摘要": "delete后get返回None",
+      "判定方式": "boolean"
+    },
+    {
+      "id": "AC-7",
+      "摘要": "clear后size=0",
+      "判定方式": "numeric"
+    },
+    {
+      "id": "AC-8",
+      "摘要": "100并发不崩溃",
+      "判定方式": "boolean"
+    },
+    {
+      "id": "AC-9",
+      "摘要": "get先过期后LRU",
+      "判定方式": "state_check"
+    },
+    {
+      "id": "AC-10",
+      "摘要": "set已存在key不淘汰自身",
+      "判定方式": "state_check"
+    }
+  ],
+  "environment": {
+    "端口": 0,
+    "依赖": [],
+    "运行时": "python"
+  },
+  "risk_level": "L1",
+  "full_spec_path": "../phase-outputs/spec.md",
+  "spec_checksum": "3314348fb6de3d3790d825f6273ed9c3d9e0bafa0cc455377ad132bdaf4deef2"
+}
