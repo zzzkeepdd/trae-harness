@@ -55,33 +55,9 @@
 | C35 | C27 强化: 测试闸门不仅检查文件存在，还要求测试文件引用源文件所有 public 函数 (覆盖率 ≥70%)。实验: A 组 62% 覆盖 | Trae统筹 | test-gating |
 | C36 | 新增规则: 测试质量复盘必须包含 mutmut 变异测试 (≥100 个变异点)，变异分 < 30% 时拒绝通过测试闸门。当前手动变异精度不足。 | 全体 | verification-integrity |
 
-| C37 | 新增规则: 测试质量复盘必须包含 mutmut 变异测试 (≥100 个变异点)，变异分 < 30% 时拒绝通过测试闸门。当前手动变异精度不足。 | 全体 | verification-integrity |
-
-| C38 | 新增规则: 测试质量复盘必须包含 mutmut 变异测试 (≥100 个变异点)，变异分 < 30% 时拒绝通过测试闸门。当前手动变异精度不足。 | 全体 | verification-integrity |
-
-| C39 | 新增规则: 测试质量复盘必须包含 mutmut 变异测试 (≥100 个变异点)，变异分 < 30% 时拒绝通过测试闸门。当前手动变异精度不足。 | 全体 | verification-integrity |
-
-| C40 | 新增规则: 测试质量复盘必须包含 mutmut 变异测试 (≥100 个变异点)，变异分 < 30% 时拒绝通过测试闸门。当前手动变异精度不足。 | 全体 | verification-integrity |
-
-| C41 | 新增规则: 测试质量复盘必须包含 mutmut 变异测试 (≥100 个变异点)，变异分 < 30% 时拒绝通过测试闸门。当前手动变异精度不足。 | 全体 | verification-integrity |
-
-| C42 | 新增规则: 测试质量复盘必须包含 mutmut 变异测试 (≥100 个变异点)，变异分 < 30% 时拒绝通过测试闸门。当前手动变异精度不足。 | 全体 | verification-integrity |
-
-| C43 | 新增规则: 测试质量复盘必须包含 mutmut 变异测试 (≥100 个变异点)，变异分 < 30% 时拒绝通过测试闸门。当前手动变异精度不足。 | 全体 | verification-integrity |
-
-| C44 | 新增规则: 测试质量复盘必须包含 mutmut 变异测试 (≥100 个变异点)，变异分 < 30% 时拒绝通过测试闸门。当前手动变异精度不足。 | 全体 | verification-integrity |
-
-| C45 | 新增规则: 测试质量复盘必须包含 mutmut 变异测试 (≥100 个变异点)，变异分 < 30% 时拒绝通过测试闸门。当前手动变异精度不足。 | 全体 | verification-integrity |
-
-| C46 | 新增规则: 测试质量复盘必须包含 mutmut 变异测试 (≥100 个变异点)，变异分 < 30% 时拒绝通过测试闸门。当前手动变异精度不足。 | 全体 | verification-integrity |
-
-| C47 | 新增规则: 测试质量复盘必须包含 mutmut 变异测试 (≥100 个变异点)，变异分 < 30% 时拒绝通过测试闸门。当前手动变异精度不足。 | 全体 | verification-integrity |
-
-| C48 | 新增规则: 测试质量复盘必须包含 mutmut 变异测试 (≥100 个变异点)，变异分 < 30% 时拒绝通过测试闸门。当前手动变异精度不足。 | 全体 | verification-integrity |
-
-| C49 | 新增规则: 测试质量复盘必须包含 mutmut 变异测试 (≥100 个变异点)，变异分 < 30% 时拒绝通过测试闸门。当前手动变异精度不足。 | 全体 | verification-integrity |
-
-| C50 | 新增规则: 测试质量复盘必须包含 mutmut 变异测试 (≥100 个变异点)，变异分 < 30% 时拒绝通过测试闸门。当前手动变异精度不足。 | 全体 | verification-integrity |
+| C37 | 实验有效性: SWE-bench 风格实验中，buggy code 运行测试的 `buggy_errors` 必须 ≥1，否则实验结论无效。当前实验: buggy_errors=0。 | 全体 | experiment-validity |
+| C38 | Adversarial 测试区分度: 安全/防御实验中，对照组 (A组) 的 pass rate 应 <100%，否则测试套件无法区分防御质量差异。当前实验: A=B=100%。 | Trae统筹 | test-design |
+| C39 | 对照实验差异性保证: 对照实验 (B组) 必须与 A 组在可测维度上存在差异。若 Δ=0，实验重新设计。当前实验: v11 LiveCodeBench Δ=0。 | Trae统筹 | experiment-validity |
 
 ## 修订记录
 
@@ -90,17 +66,4 @@
 - v1.2: 修订 C10；新增 C27-C30 — 2026-05-22 (ab-exp)
 - v1.3: 新增 C31-C33 — 2026-05-22 (ab-exp)
 - v1.4.0: 新增 C34-C36 — 2026-05-23 (experiment-loop)
-- v1.4.1: 新增 C37 — 2026-05-23 (experiment-loop)
-- v1.4.1: 新增 C38 — 2026-05-23 (experiment-loop)
-- v1.4.1: 新增 C39 — 2026-05-23 (experiment-loop)
-- v1.4.1: 新增 C40 — 2026-05-23 (experiment-loop)
-- v1.4.1: 新增 C41 — 2026-05-23 (experiment-loop)
-- v1.4.1: 新增 C42 — 2026-05-23 (experiment-loop)
-- v1.4.1: 新增 C43 — 2026-05-23 (experiment-loop)
-- v1.4.1: 新增 C44 — 2026-05-23 (experiment-loop)
-- v1.4.1: 新增 C45 — 2026-05-23 (experiment-loop)
-- v1.4.1: 新增 C46 — 2026-05-23 (experiment-loop)
-- v1.4.1: 新增 C47 — 2026-05-23 (experiment-loop)
-- v1.4.1: 新增 C48 — 2026-05-23 (experiment-loop)
-- v1.4.1: 新增 C49 — 2026-05-23 (experiment-loop)
-- v1.4.1: 新增 C50 — 2026-05-23 (experiment-loop)
+- v1.5.0: 修复 C37-C39 占位规则污染；新增 C37 Bug注入有效性、C38 Adversarial区分度、C39 对照差异性 — 2026-05-23 (v5-v11批次复盘)

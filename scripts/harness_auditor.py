@@ -57,7 +57,8 @@ def check_test_gate(proj):
     """C27: 检查源文件是否有对应测试文件"""
     py_files = list(proj.rglob("*.py"))
     source_files = [f for f in py_files
-                    if not f.name.startswith("test_") and not f.name.endswith("_test.py")]
+                    if not f.name.startswith("test_") and not f.name.endswith("_test.py")
+                    and f.name != "__init__.py"]
     if not source_files:
         return True, []
     test_files = set(f.name for f in py_files
@@ -139,9 +140,9 @@ def main():
         failures.append("宪法文件不存在 (management-rules.md)")
     else:
         ct = const.read_text(encoding="utf-8", errors="ignore").lower()
-        for kw in ["m01", "c08", "c09", "c27", "c28", "c29", "c30"]:
+        for kw in ["m01", "c27", "c28", "c29", "c30", "c31", "c32", "c33"]:
             if kw not in ct:
-                failures.append(f"宪法缺 {kw.upper()} (v4.0 必需)")
+                failures.append(f"宪法缺 {kw.upper()} (v1.4 必需)")
 
     # 复杂度分级
     if not comp:

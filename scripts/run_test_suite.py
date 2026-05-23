@@ -18,7 +18,8 @@ def check_test_files(project_dir):
         return True
 
     source_files = [f for f in py_files
-                    if not f.name.startswith("test_") and not f.name.endswith("_test.py")]
+                    if not f.name.startswith("test_") and not f.name.endswith("_test.py")
+                    and f.name != "__init__.py"]
     test_files = [f for f in py_files
                   if f.name.startswith("test_") or f.name.endswith("_test.py")]
 
