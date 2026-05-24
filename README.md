@@ -173,21 +173,35 @@ python scripts/harness_orchestrator.py --advance <任务目录>
 python scripts/harness_orchestrator.py --status <任务目录>
 ```
 
-## 框架提升效果
+## 🔥 实验室量化验证
 
-经过 v1-v11 共 11 个 A/B 实验验证，Harness 框架在多维度上持续提升 DeepSeek V4 Pro 的工程代码质量：
+> 模型: **DeepSeek V4 Pro** | 实验: **v1-v11 共 11 轮 A/B 对照** | 详见 [trae-harness-experiments](https://github.com/zzzkeepdd/trae-harness-experiments)
 
-| 维度 | 提升 | 说明 |
-|------|:--:|------|
-| 流程完整性 | 12% → **100%** | 编排器 15 步状态机，零遗留 |
-| 代码规范 | flake8 违规 **↓59%** | Code QA + 辩论驱动规范意识 |
-| 安全防御 | CWE 覆盖 **↑340%** | 辩论发现更多攻击面 |
-| 长期学习 | 同类 bug 复发率 **↓91.7%** | Module 3 宪法累积机制 |
-| 性能优化 | 平均 **4.61x** 加速 | 辩论攻击触发算法改进 |
-| 函数补全 | pass 率 **+3.9%** | 辩论发现边界 case |
-| Regression 防御 | 新 bug 从 2 → **0** | 测试闸门拦回问题 |
+### 代码质量提升（8 个维度，全部 WIN）
 
-详细实验数据参见 [trae-harness-experiments](https://github.com/zzzkeepdd/trae-harness-experiments)。
+| 维度 | A 组（无 Harness） | B 组（+ Harness） | 提升 |
+|------|------|------|:--:|
+| 代码正确性 | 90% (36/40 tests) | **100% (40/40)** | **+10%** |
+| 测试断言密度 | 28 条 | **124 条** | **×4.4** |
+| 测试覆盖率 | 62% | **85%** | **+23%** |
+| 代码规范 | flake8=13.0 | flake8=5.3 | **↓59%** |
+| 安全防御 | CWE=0.5 | CWE=2.2 | **↑340%** |
+| 长期学习 | 复发 20 | 复发 **2** | **↓91.7%** |
+| 性能优化 | 1.0x | **4.61x** | **×4.61** |
+| SWE-bench 回归 | 2 regressions | **0** | **↓100%** |
+
+### 💰 Token ROI（返工 + 上下文拆分）
+
+| 指标 | 数值 |
+|------|------:|
+| 单次 Harness 投入 | ~20,000 tokens |
+| 单次净节省 (中位数) | **~105,900 tokens** |
+| **ROI (中位数)** | **+529.5%** |
+| 上下文拆分固定净赚 | **+7,500 tokens/次** |
+| 年度化节省 (100 次任务) | **~1,451 万 tokens** |
+| L3 复杂任务 ROI | **可超 +1000%** |
+
+> **Harness 不仅提升代码质量，还在 Token 消耗上做到净盈利。** 核心逻辑：用 2 万 tokens 的前期辩论 + 质量门，节省后期 10 倍以上的返工成本。
 
 ## 目录结构
 
