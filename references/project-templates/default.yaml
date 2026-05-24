@@ -1,0 +1,72 @@
+project_type: default
+label: 通用项目（未匹配到模板时回退）
+trigger_keywords: []
+complexity_default: L2
+
+complexity_rules:
+  L1: "≤3 文件，单一技术栈，无外部依赖"
+  L2: "4-15 文件，1-2 外部依赖"
+  L3: ">15 文件，3+ 外部依赖，多系统交互"
+
+module_1_agents:
+  - researcher
+  - debater
+  - reviewer
+
+module_2_agents:
+  - developer
+  - code-qa
+  - func-qa
+
+debate_dimensions:
+  - id: boundary
+    label: 边界条件
+    attack_prompts:
+      - "输入为 None/空/超长时的行为"
+      - "并发操作下的状态一致性"
+  - id: performance
+    label: 性能
+    attack_prompts:
+      - "最大数据量下的耗时上限"
+      - "内存/CPU 占用峰值"
+  - id: security
+    label: 安全
+    attack_prompts:
+      - "注入攻击/权限绕过防御"
+      - "敏感信息是否加密存储"
+  - id: api
+    label: API 接口
+    attack_prompts:
+      - "参数不兼容时的错误处理"
+      - "返回值结构是否一致"
+
+gates:
+  - GATE_1
+  - GATE_2
+  - TEST_GATE
+  - AUDIT_GATE
+
+required_outputs:
+  PHASE_1:
+    files: [research-brief.md]
+    desc: "调研摘要"
+  PHASE_2:
+    files: [debate-output.json]
+    desc: "辩论输出"
+  PHASE_4:
+    files: [spec.md, execution-manifest.json]
+    desc: "需求规格+执行清单"
+  MODULE_2_STEP_2:
+    files: [code-qa-report.md]
+    desc: "代码技术验收报告"
+  MODULE_2_STEP_3:
+    files: [func-qa-report.md]
+    desc: "功能业务验收报告"
+
+acceptance_criteria:
+  - "测试覆盖率 ≥60%"
+  - "lint 无新增错误"
+
+retrospect_metrics:
+  - bug_count
+  - test_pass_rate

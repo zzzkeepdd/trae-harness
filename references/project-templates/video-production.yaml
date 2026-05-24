@@ -1,0 +1,101 @@
+project_type: video-production
+label: 视频 / 动画制作
+trigger_keywords: [视频, 动画, 剪辑, 分镜, 字幕, 配音, 口播, 宣传片, hyperframes, open-design, 画面, 转场, 画布, 色调]
+complexity_default: L2
+
+complexity_rules:
+  L1: "≤30 秒，单一场景，无转场，无字幕同步"
+  L2: "30 秒-3 分钟，2-5 场景，转场+字幕+旁白"
+  L3: ">3 分钟，多场景，复杂动画，多语言字幕，自定义特效"
+
+module_1_agents:
+  - researcher
+  - debater
+  - reviewer
+
+module_2_agents:
+  - storyboard-planner
+  - creative-director
+  - visual-qa
+
+debate_dimensions:
+  - id: visual-continuity
+    label: 画面连续性
+    attack_prompts:
+      - "场景切换时是否存在跳帧或风格断裂"
+      - "关键元素在不同镜头中是否保持一致"
+      - "转场动画时长是否与叙事节奏匹配"
+  - id: color-harmony
+    label: 色彩和谐
+    attack_prompts:
+      - "相邻画面的色调是否协调"
+      - "文案情感基调与画面色调是否匹配"
+      - "暗部细节是否丢失(曝光过度/不足)"
+  - id: narrative-pacing
+    label: 叙事节奏
+    attack_prompts:
+      - "画面切换节奏是否匹配旁白语速"
+      - "高潮部分的停留时间是否足够观众消化"
+      - "开头 3 秒内是否抓住注意力"
+  - id: text-visual-match
+    label: 文案-画面匹配度
+    attack_prompts:
+      - "画面是否准确表达文案含义(非装饰性配图)"
+      - "数据可视化是否与口播数字一致"
+      - "抽象概念是否有对应的具象画面"
+  - id: subtitle-sync
+    label: 字幕同步
+    attack_prompts:
+      - "字幕出现/消失时间与旁白误差是否<0.1s"
+      - "字幕断句是否与呼吸节奏一致"
+      - "多语言字幕的长度是否适配画面空间"
+  - id: format-compliance
+    label: 格式合规
+    attack_prompts:
+      - "输出是否为平台要求的分辨率/帧率"
+      - "音频响度是否符合平台标准(-14 LUFS)"
+      - "黑边/安全区域是否适配目标设备"
+
+gates:
+  - GATE_1
+  - GATE_2
+  - VISUAL_GATE
+  - AUDIT_GATE
+
+required_outputs:
+  PHASE_1:
+    files: [research-brief.md]
+    desc: "调研摘要(风格参考/平台规范)"
+  PHASE_2:
+    files: [debate-output.json]
+    desc: "辩论输出"
+  PHASE_4:
+    files: [spec.md, storyboard.json]
+    desc: "创意规格+分镜脚本"
+  MODULE_2_STEP_2:
+    files: [creative-review.md]
+    desc: "创意审核报告"
+  MODULE_2_STEP_3:
+    files: [visual-qa-report.md]
+    desc: "视觉验收报告"
+
+acceptance_criteria:
+  - "所有分镜必须有画面参数定义"
+  - "转场动画不得有跳帧"
+  - "字幕与旁白对齐误差 <0.1s"
+  - "输出格式符合目标平台规范"
+  - "音频响度达标"
+
+retrospect_metrics:
+  - continuity_violations
+  - color_harmony_score
+  - subtitle_sync_deviation_ms
+  - format_compliance_errors
+
+tools:
+  - skill: open-design
+    usage: "根据分镜描述生成画面"
+  - skill: hyperframes
+    usage: "编排时间线和转场动画"
+  - skill: web-video-presentation
+    usage: "口播稿+画面合并输出 16:9 网页演示"

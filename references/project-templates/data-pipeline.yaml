@@ -1,0 +1,79 @@
+project_type: data-pipeline
+label: 数据管道 / ETL
+trigger_keywords: [etl, 数据管道, 数据处理, pandas, 清洗, 导出, csv, 数据库, 迁移, 同步, 增量]
+complexity_default: L2
+
+complexity_rules:
+  L1: "单一数据源，≤3 转换步骤，无增量需求"
+  L2: "2-3 数据源，清洗+验证+输出，增量模式"
+  L3: "多数据源，实时流水，数据量 >100 万行"
+
+module_1_agents:
+  - researcher
+  - debater
+  - reviewer
+
+module_2_agents:
+  - developer
+  - code-qa
+  - func-qa
+
+debate_dimensions:
+  - id: datasource
+    label: 数据源
+    default: "REST API/CSV 文件，支持增量拉取"
+    attack_prompts:
+      - "数据源返回格式变更如何检测"
+      - "API 限流时重试策略"
+  - id: transform
+    label: 转换
+    default: "pandas 清洗+验证，异常行隔离不丢弃"
+    attack_prompts:
+      - "百万行数据 OOM 怎么处理"
+      - "编码不一致时的兼容方案"
+  - id: output
+    label: 输出
+    default: "写入数据库/CSV，附带元数据(时间戳+行数)"
+    attack_prompts:
+      - "写入中途失败是否留下脏数据"
+      - "幂等性如何保证"
+  - id: scheduling
+    label: 调度
+    default: "cron/手动触发，运行时锁防并发"
+    attack_prompts:
+      - "前一次未跑完新调度触发怎么办"
+      - "失败通知机制"
+
+gates:
+  - GATE_1
+  - GATE_2
+  - TEST_GATE
+  - AUDIT_GATE
+
+required_outputs:
+  PHASE_1:
+    files: [research-brief.md]
+    desc: "调研摘要"
+  PHASE_2:
+    files: [debate-output.json]
+    desc: "辩论输出"
+  PHASE_4:
+    files: [spec.md, execution-manifest.json]
+    desc: "需求规格+执行清单"
+  MODULE_2_STEP_2:
+    files: [code-qa-report.md]
+    desc: "代码验收报告"
+  MODULE_2_STEP_3:
+    files: [func-qa-report.md]
+    desc: "功能验收报告"
+
+acceptance_criteria:
+  - "异常行隔离输出，不中断主流程"
+  - "增量模式下幂等写入"
+  - "数据量 ≥10 万行时内存 <500MB"
+  - "测试覆盖率 ≥60%"
+
+retrospect_metrics:
+  - data_loss_events
+  - oom_events
+  - schema_drift_detected

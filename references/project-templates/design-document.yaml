@@ -1,0 +1,79 @@
+project_type: design-document
+label: 设计文稿 / 品牌物料
+trigger_keywords: [设计, logo, 品牌, 海报, 画册, 封面, 插画, UI设计, 平面, 配色, 字体, Figma, Canva, DALL-E]
+complexity_default: L2
+
+complexity_rules:
+  L1: "单一物料，固定尺寸，无品牌系统"
+  L2: "2-5 个物料，统一品牌系统，主色+辅色+字体定义"
+  L3: "完整品牌手册，多平台适配，设计系统(Design System)"
+
+module_1_agents:
+  - researcher
+  - debater
+  - reviewer
+
+module_2_agents:
+  - creative-director
+  - visual-qa
+  - format-qa
+
+debate_dimensions:
+  - id: brand-consistency
+    label: 品牌一致性
+    attack_prompts:
+      - "主色使用是否符合品牌色板(偏差<5%)"
+      - "字体层级(标题/正文/标注)是否统一"
+  - id: layout-balance
+    label: 版式平衡
+    attack_prompts:
+      - "视觉重心是否平衡，留白区域是否合理"
+      - "信息层级是否清晰(3 秒内找到重点)"
+  - id: readability
+    label: 可读性
+    attack_prompts:
+      - "正文对比度是否达标(WCAG AA)"
+      - "移动端最小字号是否≥12px"
+  - id: format
+    label: 输出格式
+    attack_prompts:
+      - "源文件是否保留可编辑图层"
+      - "导出分辨率/色彩空间是否匹配用途"
+
+gates:
+  - GATE_1
+  - GATE_2
+  - VISUAL_GATE
+  - AUDIT_GATE
+
+required_outputs:
+  PHASE_1:
+    files: [research-brief.md]
+    desc: "调研摘要(竞品/风格参考)"
+  PHASE_2:
+    files: [debate-output.json]
+    desc: "辩论输出"
+  PHASE_4:
+    files: [spec.md, design-brief.json]
+    desc: "设计简报(spacing 网格/色彩方案/字体层级)"
+  MODULE_2_STEP_2:
+    files: [creative-review.md]
+    desc: "创意审核报告"
+  MODULE_2_STEP_3:
+    files: [visual-qa-report.md]
+    desc: "视觉验收报告"
+
+acceptance_criteria:
+  - "配色偏差 <5%(ΔE)"
+  - "正文对比度 ≥4.5:1"
+  - "源文件保留可编辑图层"
+  - "导出格式符合用途规范"
+
+retrospect_metrics:
+  - brand_color_deviation
+  - contrast_ratio_violations
+  - layout_consistency_score
+
+tools:
+  - skill: open-design
+    usage: "生成设计稿/品牌物料"

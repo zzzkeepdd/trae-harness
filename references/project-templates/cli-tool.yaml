@@ -1,0 +1,79 @@
+project_type: cli-tool
+label: CLI 命令行工具
+trigger_keywords: [cli, 命令行, argparse, click, 脚本, 工具, 终端, 批处理]
+complexity_default: L1
+
+complexity_rules:
+  L1: "≤3 文件，单一入口，≤2 外部依赖"
+  L2: "4-10 文件，多子命令，配置文件"
+  L3: ">10 文件，插件系统，网络交互"
+
+module_1_agents:
+  - researcher
+  - debater
+  - reviewer
+
+module_2_agents:
+  - developer
+  - code-qa
+  - func-qa
+
+debate_dimensions:
+  - id: interface
+    label: 接口
+    default: "argparse/click，POSIX 风格参数，--help 输出"
+    attack_prompts:
+      - "参数冲突时错误信息是否可操作"
+      - "stdin/stdout/stderr 管道兼容性"
+  - id: core-logic
+    label: 核心逻辑
+    default: "纯 Python stdlib 或 1 个外部依赖"
+    attack_prompts:
+      - "输入异常时行为是什么"
+      - "大文件处理是否会 OOM"
+  - id: output
+    label: 输出
+    default: "stdout 结构化 JSON 或纯文本表格，stderr 错误日志"
+    attack_prompts:
+      - "输出被管道到下一个命令时是否兼容"
+      - "编码错误时的降级策略"
+  - id: testing
+    label: 测试
+    default: "pytest + subprocess E2E 测试"
+    attack_prompts:
+      - "无网络环境测试是否独立通过"
+      - "Windows/Linux/macOS 跨平台差异"
+
+gates:
+  - GATE_1
+  - GATE_2
+  - TEST_GATE
+  - AUDIT_GATE
+
+required_outputs:
+  PHASE_1:
+    files: [research-brief.md]
+    desc: "调研摘要"
+  PHASE_2:
+    files: [debate-output.json]
+    desc: "辩论输出"
+  PHASE_4:
+    files: [spec.md, execution-manifest.json]
+    desc: "需求规格+执行清单"
+  MODULE_2_STEP_2:
+    files: [code-qa-report.md]
+    desc: "代码验收报告"
+  MODULE_2_STEP_3:
+    files: [func-qa-report.md]
+    desc: "功能验收报告"
+
+acceptance_criteria:
+  - "所有子命令可独立运行"
+  - "--help 输出完整"
+  - "退出码正确(0=成功, 非0=失败)"
+  - "测试覆盖率 ≥60%"
+
+retrospect_metrics:
+  - bug_count
+  - test_pass_rate
+  - cross_platform_compatibility

@@ -1,0 +1,87 @@
+project_type: web-app
+label: Web 全栈应用
+trigger_keywords: [web, api, react, vue, fastapi, express, 全栈, 网站, 后端, 前端, dashboard, admin, 管理后台]
+complexity_default: L2
+
+complexity_rules:
+  L1: "≤3 文件，单一技术栈，无 UI，无外部依赖"
+  L2: "4-15 文件，前后端分离或 API 服务，1-2 外部依赖"
+  L3: ">15 文件，API≥3，并发/权限，3+ 技术栈"
+
+module_1_agents:
+  - researcher
+  - debater
+  - reviewer
+
+module_2_agents:
+  - developer
+  - code-qa
+  - func-qa
+
+debate_dimensions:
+  - id: frontend
+    label: 前端
+    default: "React/Vue + TailwindCSS，响应式，深浅主题"
+    attack_prompts:
+      - "移动端 375px 下导航如何处理"
+      - "深色主题下对比度是否达标"
+      - "组件懒加载是否有回退方案"
+  - id: backend
+    label: 后端
+    default: "FastAPI/Express，RESTful JSON API"
+    attack_prompts:
+      - "并发 1000 请求时瓶颈在哪"
+      - "API 版本不兼容的降级策略"
+  - id: data
+    label: 数据
+    default: "PostgreSQL/SQLite，2-3 表关联"
+    attack_prompts:
+      - "数据迁移失败回滚策略"
+      - "N+1 查询问题如何检测"
+  - id: deploy
+    label: 部署
+    default: "Docker 容器化，GitHub Actions CI/CD"
+    attack_prompts:
+      - "部署失败自动回滚机制"
+      - "零停机部署策略"
+  - id: security
+    label: 安全
+    default: "JWT 认证、CORS、速率限制、输入校验"
+    attack_prompts:
+      - "CSRF/XSS/注入攻击防御覆盖"
+      - "敏感数据是否加密存储"
+
+gates:
+  - GATE_1
+  - GATE_2
+  - TEST_GATE
+  - AUDIT_GATE
+
+required_outputs:
+  PHASE_1:
+    files: [research-brief.md]
+    desc: "调研摘要(3调研员合并)"
+  PHASE_2:
+    files: [debate-output.json]
+    desc: "辩论输出JSON"
+  PHASE_4:
+    files: [spec.md, execution-manifest.json]
+    desc: "需求规格说明书+执行清单"
+  MODULE_2_STEP_2:
+    files: [code-qa-report.md]
+    desc: "代码技术验收报告"
+  MODULE_2_STEP_3:
+    files: [func-qa-report.md]
+    desc: "功能业务验收报告"
+
+acceptance_criteria:
+  - "所有 API 端点返回正确状态码"
+  - "前后端数据格式一致"
+  - "测试覆盖率 ≥70%"
+  - "lint 无新增错误"
+
+retrospect_metrics:
+  - bug_count
+  - test_pass_rate
+  - lint_violations
+  - security_coverage

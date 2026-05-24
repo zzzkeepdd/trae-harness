@@ -33,10 +33,10 @@
 | C19 | 用户确认门不可跳过 | Trae统筹 | — | Phase 5 |
 | C20 | 上下文清理时机 | Trae统筹 | context-management | Phase 5 |
 | C21 | 清理后保留清单 | Trae统筹 | context-management | Phase 5 |
-| C22 | 步骤隔离 | 全体子Agent | step-isolation | Module 2 |
-| C23 | 开发Agent不知 code-qa 存在 | 开发Agent | step-isolation | Module 2 |
-| C24 | code-qa 不知 func-qa 存在 | code-qa | step-isolation | Module 2 |
-| C25 | func-qa 不知前序细节 | func-qa | step-isolation | Module 2 |
+| C22 | 步骤隔离：Module 2 Agent 之间物理隔离，A 不知 B 存在 | 全体子Agent | step-isolation | Module 2 |
+| C23 | Module 2 Agent A 不知 Agent B 存在 — 具体角色由 project-profile.json 定义 | Module 2 Agent A | step-isolation | Module 2 |
+| C24 | Module 2 Agent B 不知 Agent C 存在 — 具体角色由 project-profile.json 定义 | Module 2 Agent B | step-isolation | Module 2 |
+| C25 | Module 2 Agent C 不知前序细节 — 只看验收标准和上游产出 | Module 2 Agent C | step-isolation | Module 2 |
 
 ### 管理规则（跨阶段）
 
@@ -67,3 +67,4 @@
 - v1.3: 新增 C31-C33 — 2026-05-22 (ab-exp)
 - v1.4.0: 新增 C34-C36 — 2026-05-23 (experiment-loop)
 - v1.5.0: 修复 C37-C39 占位规则污染；新增 C37 Bug注入有效性、C38 Adversarial区分度、C39 对照差异性 — 2026-05-23 (v5-v11批次复盘)
+- v2.0: C22-C25 泛化为领域无关；新增 project-profile.json 自适应机制；编排器 v2.0 动态状态机 — 2026-05-24

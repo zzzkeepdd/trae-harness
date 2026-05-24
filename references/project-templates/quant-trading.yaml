@@ -1,0 +1,92 @@
+project_type: quant-trading
+label: 量化交易平台
+trigger_keywords: [量化, 交易, 策略, 回测, 风控, 持仓, okx, 交易所, k线, 行情, 网格, 均线, rsi, macd]
+complexity_default: L3
+
+complexity_rules:
+  L1: "单一策略，模拟回测，无实盘"
+  L2: "2-5 策略，实盘模拟，基础风控"
+  L3: "多策略并行，实盘交易，完整风控体系"
+
+module_1_agents:
+  - researcher
+  - debater
+  - reviewer
+
+module_2_agents:
+  - developer
+  - code-qa
+  - func-qa
+
+debate_dimensions:
+  - id: strategy
+    label: 策略层
+    default: "双均线+RSI+MACD+布林带+网格+冰山+动量突破+套利 8 策略"
+    attack_prompts:
+      - "策略冲突时优先级规则是什么"
+      - "多策略共享资金池时的分配逻辑"
+  - id: capital
+    label: 资金层
+    default: "本金=5000U 可手动调整，独立于账户余额，亏损上限=本金"
+    attack_prompts:
+      - "本金用完是否自动全部平仓"
+      - "浮盈是否可作保证金"
+  - id: risk
+    label: 风控层
+    default: "5% 硬止损，手动风控滑块可覆盖，两者同时触发时手动优先"
+    attack_prompts:
+      - "手动风控和自动止损同时触发谁优先"
+      - "极端行情下止损滑点保护"
+  - id: data
+    label: 数据层
+    default: "OKX WebSocket 实时行情，DeepSeek API 分析信号"
+    attack_prompts:
+      - "交易所断网时策略如何处理持仓"
+      - "WebSocket 重连后数据断点续传"
+  - id: ui
+    label: UI 层
+    default: "PyQt6 桌面程序，MUJI 极简风格"
+    attack_prompts:
+      - "设置页入口在哪，本金调整交互方式是什么"
+      - "长列表行情渲染性能"
+  - id: deploy
+    label: 部署层
+    default: "本地运行，24h 服务器部署"
+    attack_prompts:
+      - "服务器重启后策略状态如何恢复"
+      - "日志轮转和磁盘空间管理"
+
+gates:
+  - GATE_1
+  - GATE_2
+  - TEST_GATE
+  - AUDIT_GATE
+
+required_outputs:
+  PHASE_1:
+    files: [research-brief.md]
+    desc: "调研摘要"
+  PHASE_2:
+    files: [debate-output.json]
+    desc: "辩论输出"
+  PHASE_4:
+    files: [spec.md, execution-manifest.json]
+    desc: "需求规格+执行清单"
+  MODULE_2_STEP_2:
+    files: [code-qa-report.md]
+    desc: "代码验收报告"
+  MODULE_2_STEP_3:
+    files: [func-qa-report.md]
+    desc: "功能验收报告"
+
+acceptance_criteria:
+  - "回测收益曲线可复现"
+  - "止损触发误差 <0.1%"
+  - "WebSocket 断线 30s 内自动重连"
+  - "测试覆盖率 ≥70%"
+
+retrospect_metrics:
+  - strategy_conflict_count
+  - stop_loss_slippage
+  - websocket_disconnect_duration
+  - capital_exhaustion_events

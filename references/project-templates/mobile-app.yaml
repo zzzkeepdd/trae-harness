@@ -1,0 +1,82 @@
+project_type: mobile-app
+label: 移动 App
+trigger_keywords: [移动端, app, ios, android, flutter, react-native, swift, kotlin, 手机, 平板, 小程序]
+complexity_default: L3
+
+complexity_rules:
+  L1: "单页应用，静态内容，无网络请求"
+  L2: "3-5 页面，网络交互，本地存储，1-2 原生能力"
+  L3: ">5 页面，推送/定位/相机/支付，多语言，离线模式"
+
+module_1_agents:
+  - researcher
+  - debater
+  - reviewer
+
+module_2_agents:
+  - developer
+  - code-qa
+  - func-qa
+
+debate_dimensions:
+  - id: ux
+    label: 用户体验
+    attack_prompts:
+      - "首屏加载时间是否 <1s"
+      - "手势冲突和误触区域是否处理"
+      - "横竖屏切换时布局是否正常"
+  - id: native
+    label: 原生能力
+    attack_prompts:
+      - "权限被拒绝后的降级方案"
+      - "后台/锁屏时的行为定义"
+  - id: network
+    label: 网络层
+    attack_prompts:
+      - "弱网环境下的加载策略和超时提示"
+      - "离线数据与在线数据冲突时的合并策略"
+  - id: data
+    label: 数据安全
+    attack_prompts:
+      - "敏感数据是否存储在安全区域(Keychain/Keystore)"
+      - "JWT 过期时的刷新策略"
+  - id: compatibility
+    label: 兼容性
+    attack_prompts:
+      - "刘海屏/打孔屏的安全区域适配"
+      - "iOS/Android 最低版本支持范围"
+
+gates:
+  - GATE_1
+  - GATE_2
+  - TEST_GATE
+  - AUDIT_GATE
+
+required_outputs:
+  PHASE_1:
+    files: [research-brief.md]
+    desc: "调研摘要(平台规范/竞品参考)"
+  PHASE_2:
+    files: [debate-output.json]
+    desc: "辩论输出"
+  PHASE_4:
+    files: [spec.md, execution-manifest.json]
+    desc: "需求规格+执行清单"
+  MODULE_2_STEP_2:
+    files: [code-qa-report.md]
+    desc: "代码验收报告"
+  MODULE_2_STEP_3:
+    files: [func-qa-report.md]
+    desc: "功能验收报告"
+
+acceptance_criteria:
+  - "首屏加载 <1s (3G 网络)"
+  - "所有原生权限申请有用户提示"
+  - "离线模式下核心功能可用"
+  - "测试覆盖率 ≥70%"
+
+retrospect_metrics:
+  - crash_count
+  - permission_denial_rate
+  - offline_sync_conflicts
+  - app_size_mb
