@@ -85,3 +85,12 @@ retrospect_metrics:
   - test_pass_rate
   - lint_violations
   - security_coverage
+
+tools:
+  - skill: trae-acceptance
+    mode: browser
+    usage: "启动 headless 浏览器，逐页截图+深浅主题+375px 移动端验收"
+    args: {url: "http://localhost:3000"}
+  - skill: trae-acceptance
+    mode: code
+    usage: "运行 pytest 测试套件 + flake8 lint 检查"

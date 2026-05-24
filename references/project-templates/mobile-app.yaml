@@ -80,3 +80,9 @@ retrospect_metrics:
   - permission_denial_rate
   - offline_sync_conflicts
   - app_size_mb
+
+tools:
+  - skill: trae-acceptance
+    mode: browser
+    usage: "启动 headless 浏览器，375px/768px/1280px 三尺寸截图+深浅主题验收"
+    args: {url: "http://localhost:3000", pages: 5}

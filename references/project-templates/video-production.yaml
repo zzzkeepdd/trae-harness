@@ -93,6 +93,9 @@ retrospect_metrics:
   - format_compliance_errors
 
 tools:
+  - skill: trae-acceptance
+    mode: visual
+    usage: "检查画面文件数+分镜完整性+格式合规"
   - skill: open-design
     usage: "根据分镜描述生成画面"
   - skill: hyperframes
