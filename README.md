@@ -1,9 +1,26 @@
 # Trae Harness
 
-> "一人公司" Trae版 — 注意力友好的多Agent协作框架 + 铁面编排器
+> "一人公司" Trae版 — 注意力友好的多Agent协作框架 + 铁面双引擎编排器
 
-[![Version](https://img.shields.io/badge/version-1.5.0-blue.svg)](./SKILL.md)
+[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](./SKILL.md)
 [![License](https://img.shields.io/badge/license-MIT-yellow.svg)](./LICENSE)
+
+## v2.0 新特性：项目类型自适应
+
+Phase 0 不再是简单的复杂度判定——**自动识别项目类型，匹配合适的 Agent 阵容和维度**。
+
+| 项目类型 | 触发词示例 | Module 2 Agent | 特色闸门 |
+|------|------|------|:--:|
+| web-app | web/api/react/vue/fastapi | developer + code-qa + func-qa | TEST_GATE |
+| quant-trading | 量化/交易/策略/风控 | developer + code-qa + func-qa | TEST_GATE |
+| cli-tool | cli/命令行/argparse | developer + code-qa + func-qa | TEST_GATE |
+| data-pipeline | etl/数据管道/pandas | developer + code-qa + func-qa | TEST_GATE |
+| **video-production** | **视频/动画/分镜/字幕** | **storyboard-planner + creative-director + visual-qa** | **VISUAL_GATE** |
+| **design-document** | **设计/logo/品牌/海报** | **creative-director + visual-qa + format-qa** | **VISUAL_GATE** |
+| mobile-app | 移动端/app/ios/android | developer + code-qa + func-qa | TEST_GATE |
+| default | (无匹配) | developer + code-qa + func-qa | TEST_GATE |
+
+8 个项目模板在 `references/project-templates/*.yaml`，Phase 0 自动匹配。
 
 ## 核心理念
 
@@ -61,24 +78,29 @@
 模块三：复盘宪法（主Agent内化）
 ```
 
-## 与 v1.0 的核心变化
+## 版本演进
 
-| 维度 | v1.0 | v1.5.0 |
-|------|------|--------|
-| **编排器** | 无（依赖 Agent 自觉） | 15 步状态机，铁面门卫 |
-| **闸门数量** | 2 个（辩论验证 + 可测性） | 4 个（+ 测试闸门 + 审计闸门） |
-| **宪法规则** | 25 条 | 39 条（含实验有效性和对照差异性规则） |
-| **验证脚本** | 4 个 | 6 个（新增 run_test_suite + harness_auditor） |
-| **流程保证** | ~12% 任务走到终点 | **100%**（编排器强制执行） |
+| 维度 | v1.0 | v1.5 | v2.0 |
+|------|------|------|------|
+| **编排器** | 无 | 15 步状态机 | **动态状态机**（从 project-profile.json 生成） |
+| **闸门数量** | 2 个 | 4 个 | **5 个**（+ VISUAL_GATE） |
+| **宪法规则** | 25 条 | 39 条 | 39 条（C22-C25 泛化为领域无关） |
+| **Agent 阵容** | 固定 8 个 | 固定 8 个 | **按项目类型自适应**（11 个 + 按需加载） |
+| **项目模板** | 无 | 无 | **8 个 YAML 模板**（自动匹配） |
+| **非代码支持** | 纯代码 | 纯代码 | **视频/设计/动画** |
+| **验收引擎** | 无 | 无 | **[trae-acceptance](https://github.com/zzzkeepdd/trae-acceptance)** 独立验收 skill |
+| **流程保证** | ~12% | 100% | 100% |
 
-## 编排器 — 15 步状态机
+## 编排器 — 动态状态机
+
+状态机由 `project-profile.json` 动态生成，不同项目类型走不同的闸门路径：
 
 ```
-INIT → PHASE_0 → PHASE_1 → PHASE_2 → GATE_1 → PHASE_3 → PHASE_4 → GATE_2
-→ PHASE_5 → M2_STEP_1 → TEST_GATE → M2_STEP_2 → M2_STEP_3 → AUDIT_GATE → DONE
+代码项目: INIT → PHASE_0 → ... → GATE_1 → ... → GATE_2 → ... → TEST_GATE → ... → AUDIT_GATE → DONE
+视频/设计: INIT → PHASE_0 → ... → GATE_1 → ... → GATE_2 → ... → VISUAL_GATE → ... → AUDIT_GATE → DONE
 ```
 
-CLI 操作：
+不再硬编码 15 步——自适应。
 
 ```bash
 python scripts/harness_orchestrator.py --init    <任务目录> <项目名>
@@ -149,7 +171,7 @@ Trae Harness会自动：
 
 完整规则参见 [references/constitution/full-constitution.md](references/constitution/full-constitution.md)
 
-## 验证脚本（6 个）
+## 验证脚本（7 个）
 
 | 脚本 | 对应闸门 | 作用 |
 |------|:---:|------|
@@ -157,7 +179,9 @@ Trae Harness会自动：
 | `check_testability.py` | GATE_2 | 验收标准可测性检查 |
 | `validate_execution_manifest.py` | GATE_2 | 执行清单 schema 验证 |
 | `run_test_suite.py` | TEST_GATE | 运行测试套件，失败则拒绝交付 |
+| `check_visual_integrity.py` | VISUAL_GATE | 视觉完整性（视频/设计项目专用） |
 | `harness_auditor.py` | AUDIT_GATE | 最终审计：宪法规则覆盖 + 产出物完整性 |
+| `harness_orchestrator.py` | 编排器 | **动态状态机**，从 project-profile.json 构建 |
 
 ```bash
 # 闸门验证
@@ -203,7 +227,6 @@ python scripts/harness_orchestrator.py --status <任务目录>
 > **Harness 不仅提升代码质量，还在 Token 消耗上做到净盈利。** 核心逻辑：用 2 万 tokens 的前期辩论 + 质量门，节省后期 10 倍以上的返工成本。
 
 ## 目录结构
-
 ```
 trae-harness/
 ├── SKILL.md
@@ -222,7 +245,7 @@ trae-harness/
 │   ├── step-2-3-func-qa.md
 │   └── step-2-4-audit.md
 ├── references/
-│   ├── agent-roster/            # Agent 角色卡（8个）
+│   ├── agent-roster/            # Agent 角色卡（11个，按项目类型加载）
 │   │   ├── trae-coordinator.md
 │   │   ├── researcher.md
 │   │   ├── debater.md
@@ -230,28 +253,46 @@ trae-harness/
 │   │   ├── spec-generator.md
 │   │   ├── developer.md
 │   │   ├── code-qa.md
-│   │   └── func-qa.md
+│   │   ├── func-qa.md
+│   │   ├── storyboard-planner.md  # 视频项目：分镜规划
+│   │   ├── creative-director.md   # 视频/设计：创意审核
+│   │   └── visual-qa.md           # 视频/设计：视觉验收
+│   ├── project-templates/       # 8 个项目类型模板（v2.0 新增）
+│   │   ├── web-app.yaml
+│   │   ├── cli-tool.yaml
+│   │   ├── quant-trading.yaml
+│   │   ├── data-pipeline.yaml
+│   │   ├── mobile-app.yaml
+│   │   ├── video-production.yaml
+│   │   ├── design-document.yaml
+│   │   └── default.yaml
 │   ├── constitution/
-│   │   ├── meta-rules.md        # 元规则 M01
-│   │   ├── management-rules.md  # 管理规则 C26-C39
-│   │   ├── rules-by-phase/      # 按阶段拆分规则
-│   │   ├── full-constitution.md # 完整宪法 + 修订记录
-│   │   ├── proposals.md         # 规则提案记录
-│   │   ├── vague-words.txt      # 模糊词黑名单
+│   │   ├── meta-rules.md
+│   │   ├── management-rules.md
+│   │   ├── rules-by-phase/
+│   │   ├── full-constitution.md
+│   │   ├── proposals.md
+│   │   ├── vague-words.txt
 │   │   ├── debate-output.schema.json
 │   │   └── execution-manifest.schema.json
-│   └── workflows/               # 三模块流程
+│   └── workflows/
 │       ├── module-1-clarify.md
 │       ├── module-2-tdd.md
 │       └── module-3-review.md
 └── scripts/
-    ├── harness_orchestrator.py  # 15步状态机编排器
+    ├── harness_orchestrator.py      # 动态状态机编排器（v2.0）
     ├── validate_debate_output.py
     ├── check_testability.py
     ├── validate_execution_manifest.py
-    ├── run_test_suite.py        # 测试闸门
-    └── harness_auditor.py       # 审计闸门
+    ├── run_test_suite.py
+    ├── check_visual_integrity.py    # 视觉闸门（v2.0 新增）
+    └── harness_auditor.py
 ```
+## 相关仓库
+| 仓库 | 说明 |
+|------|------|
+| [trae-acceptance](https://github.com/zzzkeepdd/trae-acceptance) | 独立验收 skill（Playwright + 视觉 + 双轨复盘） |
+| [trae-harness-experiments](https://github.com/zzzkeepdd/trae-harness-experiments) | v1-v11 完整 A/B 实验数据 |
 
 ## 适用场景
 
