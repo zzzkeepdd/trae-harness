@@ -5,7 +5,7 @@
 
 🎬 **1 分 40 秒带你了解 Trae Harness 是什么、怎么用、效果如何：**
 
-https://github.com/zzzkeepdd/trae-harness/blob/master/assets/trae-harness-demo.mp4
+https://raw.githubusercontent.com/zzzkeepdd/trae-harness/master/assets/trae-harness-demo.mp4
 
 > 本视频由 [web-video-presentation](https://github.com/zzzkeepdd/web-video-presentation) skill 全自动生成 —— 文案 → 口播稿 → React 网页 → Kokoro TTS 配音 → HyperFrames 渲染 MP4，全链路 AI 驱动。
 
