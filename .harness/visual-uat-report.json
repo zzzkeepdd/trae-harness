@@ -1,0 +1,16 @@
+{
+  "mode": "visual",
+  "timestamp": "2026-05-24T20:48:27.954118",
+  "checks": {
+    "frames": {
+      "passed": false,
+      "count": 0,
+      "detail": "无画面文件目录"
+    },
+    "storyboard": {
+      "passed": false,
+      "detail": "缺少 storyboard.json 或 design-brief.json"
+    }
+  },
+  "overall": false
+}

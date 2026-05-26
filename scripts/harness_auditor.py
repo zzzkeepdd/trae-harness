@@ -134,15 +134,24 @@ def main():
     if cq and fq and cq.resolve() == fq.resolve():
         failures.append(f"{pipeline.upper()} 要求 code-qa 和 func-qa 为独立文件")
 
-    # 宪法文件检查
-    const = harness / "references/constitution/management-rules.md"
-    if not const.is_file():
-        failures.append("宪法文件不存在 (management-rules.md)")
-    else:
-        ct = const.read_text(encoding="utf-8", errors="ignore").lower()
-        for kw in ["m01", "c27", "c28", "c29", "c30", "c31", "c32", "c33"]:
-            if kw not in ct:
-                failures.append(f"宪法缺 {kw.upper()} (v1.4 必需)")
+    # 宪法文件检查 — 按阶段分文件
+    const_files = {
+        "meta-rules.md": ["m01"],
+        "management-rules.md": ["c31", "c35", "c36", "c37", "c38", "c39", "c41"],
+        "rules-by-phase/phase-0-complexity.md": ["c01", "c02", "c03", "c04", "c26", "c34"],
+        "rules-by-phase/phase-2-debate.md": ["c08", "c09", "c10", "c11", "c30"],
+        "rules-by-phase/module-2-steps.md": ["c22", "c23", "c24", "c25"],
+        "rules-by-phase/module-2-test-gates.md": ["c27", "c28", "c29", "c32", "c33"],
+    }
+    for fname, required_ids in const_files.items():
+        fpath = harness / "references/constitution" / fname
+        if not fpath.is_file():
+            failures.append(f"宪法文件不存在 ({fname})")
+        else:
+            ct = fpath.read_text(encoding="utf-8", errors="ignore").lower()
+            for kw in required_ids:
+                if kw not in ct:
+                    failures.append(f"宪法 {fname} 缺 {kw.upper()}")
 
     # 复杂度分级
     if not comp:

@@ -16,7 +16,7 @@
 ## 加载规则
 - meta-rules.md（M01）
 - step-2-1-develop.md（开发规则3条）
-- module-2-rules.md（C22-C23）
+- module-2-steps.md（C22-C23）
 
 ## 你不知道
 - 后面有验收

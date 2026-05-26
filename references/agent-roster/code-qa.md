@@ -17,7 +17,8 @@
 ## 加载规则
 - meta-rules.md（M01）
 - step-2-2-code-qa.md（验收规则3条）
-- module-2-rules.md（C22, C24）
+- module-2-steps.md（C22, C24）
+- module-2-test-gates.md（C27-C29, C32-C33）
 
 ## 你不知道
 - 前面开发的具体细节

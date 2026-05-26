@@ -22,7 +22,8 @@
 
 ## 加载规则
 - meta-rules.md（M01）
-- module-2-rules.md（C22-C25）
+- module-2-steps.md（C22-C25）
+- module-2-test-gates.md（C27-C29, C32-C33, C40）
 
 ## 你不知道
 - storyboard-planner 的具体实现
